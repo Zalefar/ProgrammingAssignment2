@@ -6,7 +6,7 @@
 
 ## Creates matrix and special list of functions whose purpose is 
 ## to find and set inverse values for supplied matrices.
-## Pass standard matrix arguments. (c(),row#, column#, ...)
+## Pass standard matrix arguments. matrix(c(),row#, column#, ...)
 
 makeCacheMatrix <- function(x = matrix()) {
     inv = NULL 
