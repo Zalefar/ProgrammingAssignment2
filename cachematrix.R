@@ -1,5 +1,5 @@
 ## Creates and saves the inverse matrix of a user supplied matrix. Caches
-## last evaluated inverse matrix. Can prevent the neccesity of reevaluating 
+## last evaluated inverse matrix. Prevents the neccesity of re-evaluating 
 ## the same matrix for its inverse repeatedly. 
 ## Assumes invertability of passed matrices.
  
@@ -14,40 +14,39 @@ makeCacheMatrix <- function(x = matrix()) {
     
     set <- function(y){ ## Set new matrices whose inverses we wish to find
         x <<- y
-        inv <<- Null
+        inv <<- NULL
     }
     
-    get <- function() ## Gets and prints the current matrix to double check it is the correct one
+    get <- function() ## Returns the current matrix to double check it is the correct one
         x
     
     setInv <- function(inverse) ## Sets the inverse matrix for the current matrix
         inv <<- inverse
     
-    getInv <- function() ## returns the inverse matrix to make sure its present
+    getInv <- function() ## Returns the inverse matrix to make sure its present
         inv
     
-    ## Allows us to call and set makeMatrix functions by 'x$(__func_name__)' 
-    list(set = set, 
-          get = get,
+    ## Allows us to call and set makeCacheMatrix functions by using extractor '$' 
+    list(set = set, get = get, 
           setInv = setInv,
           getInv = getInv) 
 }
 
 
 ## function finds inverse if not already set for supplied matrix and 
-## then moves to cahce the inverse value. 
+## then moves to cahce the inverse matrix. Otherwrise caculates inverse matrix.
 ## uses solve() and lets 'b' be taken as identity matrix
 cacheSolve <- function(x, ...) {
-       inv <- x$getInv()    ## retrieves inverse value
+       inv <- x$getInv()  ## retrieves inverse value
        
-       if(!is.null(inv)){   ## checks to see if inverse matrix already exists
+       if(!is.null(inv)){ ## checks to see if inverse matrix already exists and returns it
            message("retrieving cached inverse matrix")
-           inv ## if inverse matrix already exist, returns it
+           inv 
        }
        
-       matrix <- x$get() ## if inverse matrix does not exit find current matrix
-       inv <- solve(matrix,...) ## finds the inverse matrix of the current matrix
-       x$setInv(inv)    ## sets the inverse value for that matrix
-       inv              ## returns the inverse matrix
+       matrix <- x$get()        ## If inverse matrix does not exist find current
+       inv <- solve(matrix,...) ## matrix, solve, cache and return it.
+       x$setInv(inv)    
+       inv              
        
 }
